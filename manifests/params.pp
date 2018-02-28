@@ -9,6 +9,7 @@ class dex::params {
   $package_ensure        = 'latest'
   $package_name          = 'dex'
   $config_dir            = '/etc/dex'
+  $bin_dir               = '/usr/bin'
   $pretty_config         = true
   $pretty_config_indent  = 4
   $purge_config_dir      = true

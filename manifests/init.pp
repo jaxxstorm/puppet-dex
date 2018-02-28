@@ -31,16 +31,22 @@
 #
 # [*config_hash*]
 #   Use this to populate the JSON config file for dex.
+#
+# [*bin_dir*]
+#   Path to your dex binary. Depends on your RPM build
 class dex (
   $install_method                            = $dex::params::install_method,
   $package_ensure                            = $dex::params::package_ensure,
   $package_name                              = $dex::params::package_name,
   $config_dir                                = $dex::params::config_dir,
+  $bin_dir                                   = $dex::params::bin_dir,
   Boolean $pretty_config                     = $dex::params::pretty_config,
   Integer $pretty_config_indent              = $dex::params::pretty_config_indent,
   Boolean $purge_config_dir                  = $dex::params::purge_config_dir,
   Hash $config_hash                          = $dex::params::config_hash,
   Hash $config_defaults                      = $dex::params::config_defaults,
+  $service_ensure                            = 'running',
+  $service_enable                            = true
 
 ) inherits dex::params {
 
@@ -54,6 +60,7 @@ class dex (
     config_hash => $config_hash_real,
     purge       => $purge_config_dir,
   }
+  -> class { 'dex::service': } 
   -> anchor { 'dex_last': }
 
 }

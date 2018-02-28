@@ -15,6 +15,20 @@ class dex::config(
   $purge = true,
 ) {
 
+
+  file { '/lib/systemd/system/dex.service':
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+    content => template('dex/dex.systemd.erb'),
+  }
+  ~> exec { 'dex-systemd-reload':
+    command     => 'systemctl daemon-reload',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    refreshonly => true,
+  }
+
+
   file { $dex::config_dir:
     ensure  => directory,
     purge   => $purge,

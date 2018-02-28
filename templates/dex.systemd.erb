@@ -1,0 +1,16 @@
+[Unit]
+Description=CoreOS Dex
+
+[Service]
+Type=simple
+# Load env vars from /etc/default/ and /etc/sysconfig/ if they exist.
+# Prefixing the path with '-' makes it try to load, but if the file doesn't
+# exist, it continues onward.
+EnvironmentFile=-/etc/default/dex
+EnvironmentFile=-/etc/sysconfig/dex
+Environment="PATH=/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+ExecStart=<%= scope.lookupvar('dex::bin_dir') %>/dex serve <%= scope.lookupvar('dex::config_dir') %>/config.json
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
