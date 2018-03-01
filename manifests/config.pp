@@ -38,6 +38,7 @@ class dex::config(
     ensure  => present,
     path    => "${dex::config_dir}/config.json",
     content => dex_sorted_json($config_hash, $::dex::pretty_config, $::dex::pretty_config_indent),
+    notify  => Service['dex'],
     require => File[$::dex::config_dir],
   }
 
